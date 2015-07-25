@@ -1,4 +1,4 @@
-## change to your working directory with the UCI folder
+## change to your working directory with the UCI data top folder
 setwd("C:/Users/jackc_000/Desktop/r_code")
 
 ## load necessary libraries
@@ -26,7 +26,7 @@ zt<-cbind(st,yt,xt)
 #combine test and training frames
 zm <- rbind(z,zt)
 
-#get freature and activity descriptions
+#get feature and activity descriptions
 f<- read.table("./UCI_har/features.txt")
 a<- read.table("./UCI_har/activity_labels.txt")
 
@@ -36,8 +36,10 @@ names(zm)<- c("subject","activity",as.character(f[,2]))
 # find all features with "mean" substring anywhere
 ms <- c(TRUE,TRUE,(grepl("mean",f[,2]) | grepl("std",f[,2])))
 
-#substitue activity category with description
+# make new data.frame with only features desired
 zm_mean <- zm[,ms]
+
+#substitue activity category with description
 aa <- transmute(zm_mean,activity=a[activity,2])
 #transmute made matrix, change to vector
 aaa <- aa[,1]
